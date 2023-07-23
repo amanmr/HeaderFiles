@@ -77,4 +77,34 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
     cout << root->data << " ";
   }
 
-  
+  //....................LEVEL ORDER TRAVERSAL......................//
+  void bfs(treeNode *root) {
+    if(root==NULL) return;
+    queue<treeNode*> q;
+    q.push(root);
+    while (!q.empty())
+    {
+      treeNode *front = q.front();
+      q.pop();
+      cout << front->data << " ";
+      if (front->left != NULL)
+      {
+        q.push(front->left);
+      }
+      if (front->right != NULL)
+      {
+        q.push(front->right);
+      }
+    }
+  }
+
+  //....................TOTAL NUMBER OF NODES......................//
+  int totalNodes(treeNode *root)
+  {
+    if (root == NULL) return 0;
+
+    int left = totalNodes(root->left);
+    int right = totalNodes(root->right);
+
+    return left + right + 1;
+  }
