@@ -108,3 +108,50 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
 
     return left + right + 1;
   }
+
+  //....................FIND IN BT......................//
+  bool find(treeNode *root, int data) 
+  {
+    if (root == NULL) return false;
+
+    if (root->data == data) return true;
+
+    bool left = find(root->left, data);
+    bool right = find(root->right, data);
+
+    if (left || right) return true;
+    else return false;
+  }
+
+  //....................MAX ELEMENT......................//
+  int maxElement(treeNode *root)
+  {
+    if (root == NULL) return INT_MIN;
+
+    int l = maxElement(root->left);
+    int r = maxElement(root->right);
+
+    return max(root->data, max(l, r));
+  }
+
+  //....................MIN ELEMENT......................//
+  int minElement(treeNode *root)
+  {
+    if (root == NULL) return INT_MAX;
+
+    int l = minElement(root->left);
+    int r = minElement(root->right);
+
+    return min(root->data, min(l, r));
+  }
+
+  //....................HEIGHT OF BT......................//
+  int height(treeNode *root)
+  {
+    if (root == NULL) return 0;
+
+    int left = height(root->left);
+    int right = height(root->right);
+
+    return max(left, right) + 1;
+  }
