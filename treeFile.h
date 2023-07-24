@@ -19,12 +19,11 @@ public:
 };
 
 
-//....................BUILD FROM PREORDER AND INORDER HELPER......................//
+//....................BUILD TREE FROM PREORDER AND INORDER HELPER......................//
 
 treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, int e, int &i)
   {
-    if (s > e)
-      return NULL;
+    if (s > e) return NULL;
     treeNode *root = new treeNode(preorder[i]);
     int location = -1;
     for (int k = s; k <= e; k++)
@@ -41,7 +40,7 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
     return root;
   }
 
-//....................BUILD FROM PREORDER AND INORDER......................//
+//....................BUILD TREE FROM PREORDER AND INORDER......................//
   treeNode *buildTreePI(vector<int> &preorder, vector<int> &inorder)
   {
     int i = 0;
@@ -52,6 +51,7 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
   void preorderPrint(treeNode *root)
   {
     if (root == NULL) return;
+    //ORDER = ROOT->LEFT->RIGHT
     cout << root->data << " ";
     preorderPrint(root->left);
     preorderPrint(root->right);
@@ -62,6 +62,7 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
   void inorderPrint(treeNode *root) 
   {
     if (root == NULL) return;
+    //ORDER = LEFT->ROOT->RIGHT
     inorderPrint(root->left);
     cout << root->data << " ";
     inorderPrint(root->right);
@@ -72,6 +73,7 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
   void postorderPrint(treeNode *root) 
   {
     if (root == NULL) return;
+    //ORDER = LEFT->RIGHT->ROOT
     postorderPrint(root->left);
     postorderPrint(root->right);
     cout << root->data << " ";
@@ -87,14 +89,9 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
       treeNode *front = q.front();
       q.pop();
       cout << front->data << " ";
-      if (front->left != NULL)
-      {
-        q.push(front->left);
-      }
-      if (front->right != NULL)
-      {
-        q.push(front->right);
-      }
+      //PUSHING CHILDRENS INTO THE QUEUE
+      if (front->left) q.push(front->left);
+      if (front->right) q.push(front->right);
     }
   }
 
@@ -102,10 +99,9 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
   int totalNodes(treeNode *root)
   {
     if (root == NULL) return 0;
-
+    //ASKING RECURSION TO SOLVE FOR SMALLER PROBLEM
     int left = totalNodes(root->left);
     int right = totalNodes(root->right);
-
     return left + right + 1;
   }
 
@@ -113,10 +109,11 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
   bool find(treeNode *root, int data) 
   {
     if (root == NULL) return false;
-
     if (root->data == data) return true;
 
+    //FINDING IN LEFT SUBTREE
     bool left = find(root->left, data);
+    //FINDING IN RIGHT SUBTREE
     bool right = find(root->right, data);
 
     if (left || right) return true;
@@ -150,8 +147,8 @@ treeNode *buildTreePIHelper(vector<int> &preorder, vector<int> &inorder, int s, 
   {
     if (root == NULL) return 0;
 
-    int left = height(root->left);
-    int right = height(root->right);
+    int l = height(root->left);
+    int r = height(root->right);
 
-    return max(left, right) + 1;
+    return max(l, r) + 1;
   }

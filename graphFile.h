@@ -1,6 +1,7 @@
 #include<iostream>
 #include <vector>
 #include<queue>
+#include<set>
 using namespace std;
 
 
@@ -48,4 +49,60 @@ vector<int> bfsOfGraph(int V, vector<int> adj[]) {
             }
         }
         return ans;
+    }
+
+    //.........................Dijkstra's algorithm......................//
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
+    {
+        // Code here
+        vector <int> dist(V,1e8);
+        set<pair<int,int>> s;
+        dist[S]=0;
+        s.insert({0,S});
+        while(!s.empty()){
+            auto p=*(s.begin());
+            s.erase(s.begin());
+            int node=p.second;
+            int d=p.first;
+            for(auto x:adj[node]){
+                int currDis=d+x[1];
+                if(dist[x[0]]>currDis){
+                    auto f=s.find({dist[x[0]],x[0]});
+                    if(f!=s.end()){
+                        s.erase({dist[x[0]],x[0]});
+                    }
+                    dist[x[0]]=currDis;
+                    s.insert({dist[x[0]],x[0]});
+                }
+            }
+        }
+        return dist;
+    }
+
+
+    //...................Bellman Ford Algorithm.....................//
+    vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
+        // Code here
+        vector<int> dist(V,1e8);
+        dist[S]=0;
+        for(int i=0;i<V-1;i++){
+            for(auto x:edges){
+                int src=x[0];
+                int dest=x[1];
+                int wt=x[2];
+                if(dist[src]!=1e8 && dist[dest]>dist[src]+wt){
+                    dist[dest]=dist[src]+wt;
+                }
+            }
+        }
+        for(auto x:edges){
+                int src=x[0];
+                int dest=x[1];
+                int wt=x[2];
+                if(dist[src]!=1e8 && dist[dest]>dist[src]+wt){
+                    vector<int> v(1,-1);
+                    return v;
+                }
+            }
+            return dist;
     }
