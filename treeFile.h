@@ -10,7 +10,7 @@ public:
   treeNode *left;
   treeNode *right;
 
-  treeNode(int d) // constructor
+  treeNode(int d) 
   {
     data = d;
     left = NULL;
